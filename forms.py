@@ -42,14 +42,12 @@ class EnvayaSMSBackendForm(BaseHttpForm):
         print "Fields that we got are ", fields
         return_data = {}
         #determine our further PoA based on the action varible passed by envaya phone
-        import pdb
-        pdb.set_trace()
 
         if action == 'incoming':
             logger.info("We have an incoming message!")
 
             return_data['text']        = self.cleaned_data[self.text_name]
-            return_data['connection']  = self.lookup_connections([self.identity_name])[0]
+            return_data['connection']  = self.lookup_connections([self.cleaned_data[self.identity_name]])[0]
             return_data['from_phone']  = self.cleaned_data['phone_number']
             return return_data
 
