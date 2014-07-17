@@ -20,12 +20,11 @@ class EnvayaSMSBackendForm(BaseHttpForm):
          
         super(EnvayaSMSBackendForm, self).__init__(*args, **kwargs)
         
-        #What fields are we expecting?
+        #The following two fields are non-mandatory because actions other than 'incoming' won't have them.
         self.fields[self.text_name] = forms.CharField(required=False)
         self.fields[self.identity_name] = forms.CharField(required=False)
+
         self.fields['phone_number'] = forms.CharField() #which envaya phone forwarded us the msg?
-#        self.fields['log'] = forms.CharField() #any message log fwded by the envaya phone
-#        self.fields['network'] = forms.CharField() #type of network between server and envaya phone
         self.fields['action'] = forms.CharField() #what is the action?
 
     def get_incoming_data(self):
@@ -52,10 +51,9 @@ class EnvayaSMSBackendForm(BaseHttpForm):
             return_data['connection']  = self.lookup_connections([self.cleaned_data[self.identity_name]])[0]
             return_data['from_phone']  = self.cleaned_data['phone_number']
 
-        if action == 'outgoing':
+        elif action == 'outgoing':
 
             logger.info("Received a poll for outgoing message!")
-
             messages = []
 
             for m in EnqueuedMessage.objects.exclude(status = 's'):
@@ -69,15 +67,19 @@ class EnvayaSMSBackendForm(BaseHttpForm):
             return_data['events'] = [{'event': 'send', 'messages': messages}]
 
         elif action == 'send_status':
-            pass
+            logger.error("NOT IMPLEMENTED: send_status action")
+
         elif action == 'device_status':
-            pass
+            logger.error("NOT IMPLEMENTED: device_status action")
+
         elif action == 'forward_sent':
-            pass
+            logger.error("NOT IMPLEMENTED: forward_status action")
+
         elif action == 'amqp_started':
-            pass
+            logger.error("NOT IMPLEMENTED: amqp_status action")
+
         else:
-            raise NotImplementedError("Action %s not implemented!" % (action))
+            logger.exception("UNSUPPORTED ACTION %s requested by EnvayaSMS Android app" % action)
+            raise NotImplementedError("Action %s not implemented!" % action)
 
         return return_data
-

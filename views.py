@@ -35,13 +35,17 @@ class EnvayaSMSBackendView(GenericHttpBackendView):
         router for processing.
         """
         data = form.get_incoming_data()
+        logger.debug("data that we got is %s" % data)
 
         if data['action'] == 'incoming':
             receive(text = data['text'], connection = data['connection'])
-            logger.debug("Incoming message forwarded to router successfully")
+            logger.info("Incoming message forwarded to router successfully!")
 
         elif data['action'] == 'outgoing':
-            logger.debug("Outgoing message forwarded to EnvayaSMS Android app successfully")
+            if len(data['events'][0]['messages']) > 1:
+                logger.info("Outgoing message forwarded to EnvayaSMS Android app successfully")
+            else:
+                logger.info("No outgoing message to forward to EnvayaSMS Android app!")
 
         return HttpResponse(json.dumps({'events': data['events']}), content_type='application/json')
 
