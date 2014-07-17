@@ -4,8 +4,9 @@ from django.http import HttpResponse, HttpResponseBadRequest
 from rapidsms.router import receive
 import logging
 import pprint
+import json
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('envayasms.views.EnvayaSMSBackendView')
 
 class EnvayaSMSBackendView(GenericHttpBackendView):
     '''This handles the incoming message life cycle '''
@@ -34,8 +35,15 @@ class EnvayaSMSBackendView(GenericHttpBackendView):
         router for processing.
         """
         data = form.get_incoming_data()
-        receive(text = data['text'], connection = data['connection'])
-        return HttpResponse('{"events": []}', content_type='application/json')
+
+        if data['action'] == 'incoming':
+            receive(text = data['text'], connection = data['connection'])
+            logger.debug("Incoming message forwarded to router successfully")
+
+        elif data['action'] == 'outgoing':
+            logger.debug("Outgoing message forwarded to EnvayaSMS Android app successfully")
+
+        return HttpResponse(json.dumps({'events': data['events']}), content_type='application/json')
 
     def form_invalid(self, form):
         """
