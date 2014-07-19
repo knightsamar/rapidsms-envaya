@@ -1,7 +1,6 @@
-rapidsms-envaya
-===============
+#envayasms
 
-Backend for EnvayaSMS Android App
+RapidSMS Backend for EnvayaSMS Android App
 
 Installation
 ============
@@ -16,21 +15,15 @@ $ git clone git://github.com/dimagi/rapidsms-envaya.git
 
 In settings.py:
 
-Add `"rapidsms-envaya"` to the list `INSTALLED_APPS`.
+Add `"envayasms"` to the list `INSTALLED_APPS`.
 
 Add the following to `INSTALLED_BACKENDS`:
 
 ```
     'envayasms': {
-        "ENGINE": "rapidsms-envaya.backend",
-        'port': 8880, # feel free to change the port
-        'password': None, # set to a string to set the password
-        'url': 'http://10.0.2.2:8880/', # important: this must exactly match what is entered in your Android phone
-        'max_delay': None
+        "ENGINE": "envayasms.backend.EnvayaSMSBackend",
     }
 ```
-
-`max_delay` is the number of seconds before RapidSMS will send messages to the wrong country code. By default, RapidSMS will only return messages to phones in the country that the EnvayaSMS instance uses. If you set max_delay to an integer, it will return messages to phones in other countries as a back-up in case there are no EnvayaSMS phones in the country the message is being sent to. This may cost a lot of money, since international texting is expensive. You can set `max_delay` to 0 to automatically send all messages to the first phone that checks for new messages.
 
 Run the following again to set up the database:
 
