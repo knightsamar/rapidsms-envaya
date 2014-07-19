@@ -10,8 +10,11 @@ Check out http://rapidsms.readthedocs.org/en/latest/main/installation.html for h
 Then, in your project directory:
 
 ```
-$ git clone git://github.com/dimagi/rapidsms-envaya.git
+$ git clone git://github.com/knightsamar/rapidsms-envaya.git
+$ mv rapidsms-envaya envayasms
 ```
+
+The *second* step is necessary because the original fork has a dash in it's name which breaks the importing as a package in Python.
 
 In settings.py:
 
@@ -50,18 +53,18 @@ There are 3 players in the whole scene:
 
 The outgoing message cycle works as follows:
 
-    1. Message is received by the `send` method of the EnvayaSMSBackend from `backend.py`
-    1. The message is then queued inside the database to be sent.
-    1. When an EnvayaSMS Android app running on a phone polls for messages using the 'outgoing' action, message are sent to the phone, to be actually delivered.
-    1. When a message is sent by the phone, the Android app updates (in the next polling) informs about it's status to the EnvayaSMS app.
-    1. The EnvayaSMS app updates the status of the message in the database, accordingly.
+1. Message is received by the `send` method of the EnvayaSMSBackend from `backend.py`
+1. The message is then queued inside the database to be sent.
+1. When an EnvayaSMS Android app running on a phone polls for messages using the 'outgoing' action, message are sent to the phone, to be actually delivered.
+1. When a message is sent by the phone, the Android app updates (in the next polling) informs about it's status to the EnvayaSMS app.
+1. The EnvayaSMS app updates the status of the message in the database, accordingly.
 
 
 ####Incoming message cycle
 
 The incoming message cycle works as follows:
 
-    1. Message is received by the EnvayaSMS Android app.
-    1. The message is then forwarded to the EnvayaSMS Django app at the URL configured in the Android app, which is actually a view implementation of EnvayaSMSBackendView (and a form behind it) from `views.py`
-    1. The EnvayaSMS Django app validates it and sends it to the router for further processing.
+1. Message is received by the EnvayaSMS Android app.
+1. The message is then forwarded to the EnvayaSMS Django app at the URL configured in the Android app, which is actually a view implementation of EnvayaSMSBackendView (and a form behind it) from `views.py`
+1. The EnvayaSMS Django app validates it and sends it to the router for further processing.
 
