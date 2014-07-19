@@ -16,7 +16,7 @@ $ mv rapidsms-envaya envayasms
 
 The *second* step is necessary because the original fork has a dash in it's name which breaks the importing as a package in Python.
 
-In settings.py:
+In `settings.py` put:
 
 Add `"envayasms"` to the list `INSTALLED_APPS`.
 
@@ -28,7 +28,15 @@ Add the following to `INSTALLED_BACKENDS`:
     }
 ```
 
-Run the following again to set up the database:
+In `urls.py` put:
+
+```
+urlpatterns = patterns('',
+    (r'^envaya_nexmo/', include('envaya_nexmo.urls')),
+)
+`
+
+Run the following now to set up the database:
 
 ```
 $ python manage.py syncdb
@@ -36,9 +44,25 @@ $ python manage.py syncdb
 
 Finally, set up EnvayaSMS on an Android phone. See http://sms.envaya.org/install/ for how to install EnvayaSMS on a real phone, or http://sms.envaya.org/test/ for how to test on your local machine. EnvayaSMS has some great documentation on how to further set up EnvayaSMS.
 
-Once you have EnvayaSMS running, set URL to point to the machine running RapidSMS, matching exactly the URL set above. 
+Once you have the EnvayaSMS Android app running, set URL to point to the `http://YOUR.SERVER.IP.ADDRESS:PORT/envaya_nexmo/`
 
-And now enjoy sending SMSes through EnvayaSMS!
+And now enjoy sending and receiving SMSes through EnvayaSMS!
+
+
+Setting up logging
+==================
+
+This is an optional step. Setting up logging properly, will help you set troubleshoot any issues. 
+
+To setup the logger, add the following to your `settings.py` in the  LOGGING section.
+```
+        'envayasms' : {
+            'handlers' : ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+```
+This will direct all the logger messages to rapidsms-debug.log (or the relevant file configured in the handlers dictionary in your LOGGING settings.
 
 How does it work?
 =================
