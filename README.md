@@ -14,7 +14,7 @@ $ git clone git://github.com/knightsamar/rapidsms-envaya.git
 $ mv rapidsms-envaya envayasms
 ```
 
-The *second* step is necessary because the original fork has a dash in it's name which breaks the importing as a package in Python.
+The *second* command is necessary because the original fork has a dash in it's name which breaks the importing as a package in Python.
 
 In `settings.py` put:
 
@@ -40,10 +40,9 @@ Run the following now to set up the database:
 
 ```
 $ python manage.py syncdb
-
 ```
 
-Finally, set up EnvayaSMS on an Android phone. See http://sms.envaya.org/install/ for how to install EnvayaSMS on a real phone, or http://sms.envaya.org/test/ for how to test on your local machine. EnvayaSMS has some great documentation on how to further set up EnvayaSMS.
+Finally, set up **EnvayaSMS on an Android phone**. See http://sms.envaya.org/install/ for how to install EnvayaSMS on a real phone, or http://sms.envaya.org/test/ for how to test on your local machine. EnvayaSMS has some great documentation on how to further set up EnvayaSMS.
 
 Once you have the EnvayaSMS Android app running, set URL to point to the `http://YOUR.SERVER.IP.ADDRESS:PORT/envaya_nexmo/`
 
@@ -53,9 +52,10 @@ And now enjoy sending and receiving SMSes through EnvayaSMS!
 Setting up logging
 ==================
 
-This is an optional step. Setting up logging properly, will help you set troubleshoot any issues. 
+This is an optional step. Setting up logging properly will help you troubleshoot any issues. 
 
-To setup the logger, add the following to your `settings.py` in the  LOGGING section.
+To setup the logger, add the following to your `settings.py` in the **LOGGING** section.
+
 ```
         'envayasms' : {
             'handlers' : ['file'],
