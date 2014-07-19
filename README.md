@@ -40,6 +40,7 @@ Run the following now to set up the database:
 
 ```
 $ python manage.py syncdb
+
 ```
 
 Finally, set up EnvayaSMS on an Android phone. See http://sms.envaya.org/install/ for how to install EnvayaSMS on a real phone, or http://sms.envaya.org/test/ for how to test on your local machine. EnvayaSMS has some great documentation on how to further set up EnvayaSMS.
