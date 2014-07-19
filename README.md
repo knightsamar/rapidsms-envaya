@@ -34,7 +34,7 @@ In `urls.py` put:
 urlpatterns = patterns('',
     (r'^envaya_nexmo/', include('envaya_nexmo.urls')),
 )
-`
+```
 
 Run the following now to set up the database:
 
